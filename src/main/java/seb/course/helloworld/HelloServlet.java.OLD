@@ -1,0 +1,21 @@
+package seb.course;
+
+import jakarta.inject.Inject;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    @Inject // <--- Point out this line! The Container does the work here.
+    private GreetingService service;
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String name = req.getParameter("name");
+        // The Proxy handles the call here
+        String message = service.sayHello(name);
+        resp.getWriter().write(message);
+    }
+}
